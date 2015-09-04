@@ -1,0 +1,19 @@
+
+
+00. # TODO: Refactor this (App.coffee) model to use an internal Game Model instead
+# of containing the game logic directly.
+0. You'll need to write your own tests. Write them as you see fit. At the very least you should test the scoring of hands and your model of a deck of cards.
+1. Planning: You'll need to write your own tests. Write them as you see fit. At the very least you should test the scoring of hands and your model of a deck of cards.
+2. [DONE] Use the command described above to compile your coffeescript into javascript
+3. Implement the core BlackJack rules (details in the next section)
+   - [DONE] If player hits 21 or goes over, then add related logic
+   - [DONE] Implement dealer hit cards functionality after player chooses to stand
+   - [DONE] Set the Ace to be evaluated with the value of 1 or 11
+   - 
+4. Write unit tests that prove that your game implements those rules
+5. Pick two or more of the following ways to make your game better
+   -  [DONE] Make the user experience better (e.g. make things look nicer, introduce a delay when dealing/revealing cards)
+   -  Give the user casino chips and allow them to bet and win (or lose!)
+8. Implement the full rules (allow the user to split or double, you can look those rules up online)
+9. Use the same shuffled stack of one or more decks across rounds, giving people that can count cards an advantage ;)
+10. The only player choices you have to implement for the bare minimum requirements are hit and stand. Anything related to betting (i.e. doubling, splitting, surrendering, or insurance) is not necessary.

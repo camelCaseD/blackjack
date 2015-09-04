@@ -7,8 +7,18 @@
   margin-right: 20px;
 }
 
+.card img {
+  height: 100%;
+  width: 100%;
+}
+
 .covered {
-  background-color: black;
+  background-image: url('../img/card-back.png');
+  background-size: contain;
+}
+
+.covered img {
+  display: none;
 }
 
 .hand {
