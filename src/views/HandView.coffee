@@ -12,8 +12,8 @@ class window.HandView extends Backbone.View
 
   initialize: ->
     @collection.on 'add remove change', => @render()
-    @collection.on 'disableControls', =>
-      @$el.children('button').attr('disabled', true);
+    @collection.on 'disableControls', => @disableControls()  
+    @collection.on 'over', => @disableControls()  
     @render()
 
   render: ->
@@ -27,3 +27,5 @@ class window.HandView extends Backbone.View
     if @collection.secondHand?
       @$el.append('<button class="hit-hand-button">Hit</button><button class="stand-hand-button">Stand</button>')
 
+  disableControls: ->
+    @$el.children('button').attr('disabled', true);      

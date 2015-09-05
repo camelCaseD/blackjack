@@ -24,3 +24,10 @@
 .hand {
   overflow: auto;
 }
+
+body {
+  background-image: url('../img/greenFelt.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}

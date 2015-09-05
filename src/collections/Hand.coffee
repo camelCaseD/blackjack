@@ -65,7 +65,7 @@ class window.Hand extends Backbone.Collection
     [@minScore(), @minScore() + 10 * @hasAce()]
 
   stand: ->
-    if @secondHand? # checks to see if second hand exists from this hand
+    if @secondHand? and typeof @secondHand isnt 'boolean' # checks to see if second hand exists from this hand
       # I'm the first hand
       @trigger('disableControls')
     else

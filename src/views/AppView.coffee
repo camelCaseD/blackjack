@@ -20,7 +20,11 @@ class window.AppView extends Backbone.View
     @render()
 
     @model.get('playerHand').on('stand', => @handleStand())
-    @model.get('playerHand').on('splitting', => @render())
+    @model.get('playerHand').on('splitting', => 
+      @model.get('playerHand').secondHand.on('stand', => @handleStand())
+      @model.get('playerHand').secondHand.on('over', -> alert('You went over'))
+      @render()
+    )
 
     @model.get('playerHand').on('over', (playerHand) ->
       alert "You went over"
@@ -45,6 +49,7 @@ class window.AppView extends Backbone.View
 
 
   handleStand: ->
+    console.log('handling')
     while @model.get('dealerHand').scores()[1] <= 16
       console.log(@model.get('dealerHand').scores()[1]);
       @model.get('dealerHand').hit()
@@ -53,14 +58,24 @@ class window.AppView extends Backbone.View
 
     dealerScores = @model.get('dealerHand').scores();
     playerScores = @model.get('playerHand').scores();
+    secondHandScores = if @model.get('playerHand').secondHand? then @model.get('playerHand').secondHand.scores() else null
 
-    
-    if playerScores[1] is dealerScores[1]
+    if dealerScores[1] > 21
+      alert 'You win'
+    else if playerScores[1] is dealerScores[1]
       alert 'Push' 
     else if playerScores[1] > dealerScores[1] and playerScores[1] <= 21
       alert 'You win!'
     else 
       alert 'You lose FOOOL!'
 
-
+    if secondHandScores?
+      if dealerScores[1] > 21
+        alert 'You win'
+      else if secondHandScores[1] is dealerScores[1]
+        alert 'Push' 
+      else if secondHandScores[1] > dealerScores[1] and secondHandScores[1] <= 21
+        alert 'You win!'
+      else 
+        alert 'You lose FOOOL!'
 
