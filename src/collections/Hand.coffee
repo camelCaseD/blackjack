@@ -3,6 +3,7 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
     @secondHand = null
+    @status = null;
 
   hit: ->
     if @scores()[1] < 21
@@ -35,11 +36,6 @@ class window.Hand extends Backbone.Collection
       #add hit button below each split hand
       @trigger('splitting')
 
-      
-
-      #adds win or lose label to top or bottom of splits hands
-
-      #avoids calling you win or lose
       return true
     false
 

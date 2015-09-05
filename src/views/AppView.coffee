@@ -49,7 +49,6 @@ class window.AppView extends Backbone.View
 
 
   handleStand: ->
-    console.log('handling')
     while @model.get('dealerHand').scores()[1] <= 16
       console.log(@model.get('dealerHand').scores()[1]);
       @model.get('dealerHand').hit()
@@ -61,21 +60,25 @@ class window.AppView extends Backbone.View
     secondHandScores = if @model.get('playerHand').secondHand? then @model.get('playerHand').secondHand.scores() else null
 
     if dealerScores[1] > 21
-      alert 'You win'
+      @model.get('playerHand').status = 1
     else if playerScores[1] is dealerScores[1]
-      alert 'Push' 
+      @model.get('playerHand').status = 0
     else if playerScores[1] > dealerScores[1] and playerScores[1] <= 21
-      alert 'You win!'
+      @model.get('playerHand').status = 1
     else 
-      alert 'You lose FOOOL!'
+      @model.get('playerHand').status = -1
 
     if secondHandScores?
       if dealerScores[1] > 21
-        alert 'You win'
+        @model.get('playerHand').secondHand.status = 1
       else if secondHandScores[1] is dealerScores[1]
-        alert 'Push' 
+        @model.get('playerHand').secondHand.status = 0
       else if secondHandScores[1] > dealerScores[1] and secondHandScores[1] <= 21
-        alert 'You win!'
+        @model.get('playerHand').secondHand.status = 1
       else 
-        alert 'You lose FOOOL!'
+        @model.get('playerHand').secondHand.status = -1
+
+      @model.get('playerHand').secondHand.trigger('finish');
+
+    @model.get('playerHand').trigger('finish');
 
