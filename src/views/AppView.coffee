@@ -1,7 +1,7 @@
 class window.AppView extends Backbone.View
   template: _.template '
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="split-button">Split</button>
-    <div class="player-hand-container"></div>
+    <div class="player-hand-container"></div><div class="player-splithand-container"></div>
     <div class="dealer-hand-container"></div>
   '
 
@@ -13,12 +13,14 @@ class window.AppView extends Backbone.View
       @model.get('playerHand').stand()
 
     'click .split-button': -> 
-      @model.get('playerHand').split()
+      if @model.get('playerHand').split()
+        @$el.children('.stand-button').attr('disabled', true)
 
   initialize: ->
     @render()
 
     @model.get('playerHand').on('stand', => @handleStand())
+    @model.get('playerHand').on('splitting', => @render())
 
     @model.get('playerHand').on('over', (playerHand) ->
       alert "You went over"
@@ -32,12 +34,15 @@ class window.AppView extends Backbone.View
       @model.get('playerHand').stand()
     )
 
-
   render: ->
     @$el.children().detach()
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
+    if @model.get('playerHand').secondHand?
+      @$('.player-splithand-container').html new HandView(collection: @model.get('playerHand').secondHand).el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+
+
 
   handleStand: ->
     while @model.get('dealerHand').scores()[1] <= 16

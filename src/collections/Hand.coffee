@@ -2,9 +2,9 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
+    @secondHand = null
 
   hit: ->
-
     if @scores()[1] < 21
       @add(@deck.pop())
       if @scores()[1] > 21 and @scores()[0] > 21 # did we go over after getting a new card?
@@ -19,12 +19,33 @@ class window.Hand extends Backbone.Collection
 
 
   split: ->
-    canSplit = @at(0).get('value') is @at(1).get('value');
+    canSplit = @at(0).get('value') is @at(1).get('value') and @length is 2
     
     if canSplit
-      return;
-      #add new card to index 1 of hand
-      #
+     
+      #split hand
+      @secondHand = new Hand([@at(1)], @deck)
+      @secondHand.secondHand = true
+      @remove(@at(1));
+
+      #deal one additional card per split hand
+      @add(@deck.pop())
+      @secondHand.add(@deck.pop())
+      #add stand button below each split hand
+      #add hit button below each split hand
+      @trigger('splitting')
+
+      
+
+      #adds win or lose label to top or bottom of splits hands
+
+      #avoids calling you win or lose
+      return true
+    false
+
+
+
+
 
 
 
@@ -44,7 +65,11 @@ class window.Hand extends Backbone.Collection
     [@minScore(), @minScore() + 10 * @hasAce()]
 
   stand: ->
-    @trigger('stand', @)
+    if @secondHand? # checks to see if second hand exists from this hand
+      # I'm the first hand
+      @trigger('disableControls')
+    else
+      @trigger('stand', @)
 
 
 
